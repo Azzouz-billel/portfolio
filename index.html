@@ -1,0 +1,37 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="color-scheme" content="dark" />
+    <meta name="theme-color" content="#05060d" />
+    <script>
+      try {
+        if (localStorage.getItem('theme') === 'light') {
+          document.documentElement.classList.add('light')
+        }
+      } catch (e) {}
+    </script>
+
+    <title>azzouz billel — Full-Stack Django Developer & Modeling/Simulation Engineer</title>
+    <meta
+      name="description"
+      content="Portfolio of a full-stack Django developer and 4th-year Modeling & Simulation student. Backend systems, Python automation, and simulation models — assembled in 3D."
+    />
+
+    <!-- Open Graph / social -->
+    <meta property="og:type" content="website" />
+    <meta property="og:title" content="Your Name — Django Developer & Simulation Engineer" />
+    <meta
+      property="og:description"
+      content="Simulating Code. Building Solutions. A full-stack Django developer with a modeling & simulation background."
+    />
+    <meta property="og:image" content="/og-image.svg" />
+    <meta name="twitter:card" content="summary_large_image" />
+  </head>
+  <body>
+    <div id="root"></div>
+    <script type="module" src="/src/main.jsx"></script>
+  </body>
+</html>

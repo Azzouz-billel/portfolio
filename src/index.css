@@ -1,0 +1,360 @@
+@import "tailwindcss";
+
+@theme {
+  /* base surfaces */
+  --color-base: #05060d; /* deep slate / indigo base */
+  --color-surface: #0b0f1a;
+  --color-surface-2: #11162400;
+
+  /* glowing interactive accents */
+  --color-accent: #38bdf8; /* electric blue */
+  --color-accent-2: #22d3ee; /* cyan */
+  --color-accent-3: #a855f7; /* neon purple */
+
+  /* text */
+  --color-ink: #e7ecf5;
+  --color-muted: #8b93a7;
+
+  --font-display: "Space Grotesk", ui-sans-serif, system-ui, sans-serif;
+  --font-sans: "Inter", ui-sans-serif, system-ui, sans-serif;
+
+  /* surfaces & motion tokens */
+  --radius-glass: 1.25rem;
+  --shadow-glass: 0 24px 70px -24px rgba(0, 0, 0, 0.85);
+  --shadow-bloom: 0 0 60px -10px rgba(56, 189, 248, 0.45);
+  --torch-radius: 220px;
+
+  /* spotlight intro animation (used by Spotlight.jsx) */
+  --animate-spotlight: spotlight 2.2s ease 0.6s 1 forwards;
+}
+
+/* Muted light theme — applied when <html> has class "light" */
+html.light {
+  --color-base: #dcdce2;
+  --color-surface: #e7e7ed;
+  --color-surface-2: #ffffff00;
+  --color-accent: #2563eb;
+  --color-accent-2: #0e7490;
+  --color-accent-3: #7c3aed;
+  --color-ink: #1b1e29;
+  --color-muted: #565d70;
+  --shadow-glass: 0 18px 50px -26px rgba(15, 18, 30, 0.3);
+}
+
+@layer base {
+  html {
+    scroll-behavior: auto; /* Lenis owns smooth scrolling */
+    -webkit-font-smoothing: antialiased;
+  }
+
+  body {
+    @apply bg-base text-ink font-sans;
+    min-height: 100vh;
+    overflow-x: hidden;
+  }
+
+  h1,
+  h2,
+  h3 {
+    @apply font-display tracking-tight;
+    text-wrap: balance;
+  }
+
+  /* Visible, on-brand focus ring for keyboard users */
+  :focus-visible {
+    outline: 2px solid var(--color-accent);
+    outline-offset: 3px;
+    border-radius: 4px;
+  }
+
+  ::selection {
+    background: color-mix(in oklab, var(--color-accent) 35%, transparent);
+    color: #fff;
+  }
+
+  /* Slim, themed scrollbar */
+  ::-webkit-scrollbar {
+    width: 10px;
+  }
+  ::-webkit-scrollbar-track {
+    background: transparent;
+  }
+  ::-webkit-scrollbar-thumb {
+    background: color-mix(in oklab, var(--color-accent) 40%, var(--color-surface));
+    border-radius: 999px;
+    border: 3px solid var(--color-base);
+  }
+}
+
+@layer components {
+  /* Liquid glass — deep translucent black, gradient hairline, bloom + inner highlight */
+  .glass,
+  .liquid-glass {
+    @apply rounded-2xl border border-white/10;
+    background:
+      linear-gradient(180deg, rgba(255, 255, 255, 0.06), rgba(255, 255, 255, 0.02)),
+      rgba(8, 10, 18, 0.55);
+    backdrop-filter: blur(22px) saturate(150%);
+    -webkit-backdrop-filter: blur(22px) saturate(150%);
+    box-shadow:
+      var(--shadow-glass),
+      inset 0 1px 0 rgba(255, 255, 255, 0.12),
+      inset 0 -1px 0 rgba(255, 255, 255, 0.04);
+  }
+
+  .glass-strong {
+    @apply rounded-2xl border border-white/15;
+    background:
+      linear-gradient(180deg, rgba(255, 255, 255, 0.1), rgba(255, 255, 255, 0.03)),
+      rgba(8, 10, 18, 0.7);
+    backdrop-filter: blur(30px) saturate(170%);
+    -webkit-backdrop-filter: blur(30px) saturate(170%);
+    box-shadow:
+      var(--shadow-glass),
+      inset 0 1px 0 rgba(255, 255, 255, 0.16);
+  }
+
+  /* Pill variant for the primary CTA — matches the "Liquid Glass" reference */
+  .liquid-glass-pill {
+    @apply rounded-full border border-white/15;
+    background:
+      linear-gradient(180deg, rgba(255, 255, 255, 0.12), rgba(255, 255, 255, 0.03)),
+      rgba(10, 12, 20, 0.6);
+    backdrop-filter: blur(18px) saturate(160%);
+    -webkit-backdrop-filter: blur(18px) saturate(160%);
+    box-shadow:
+      0 14px 40px -16px rgba(0, 0, 0, 0.9),
+      inset 0 1px 0 rgba(255, 255, 255, 0.22),
+      inset 0 -2px 6px rgba(0, 0, 0, 0.4);
+    transition: box-shadow 0.3s ease, transform 0.3s ease;
+  }
+  .liquid-glass-pill:hover {
+    box-shadow:
+      0 18px 48px -14px rgba(0, 0, 0, 0.9),
+      var(--shadow-bloom),
+      inset 0 1px 0 rgba(255, 255, 255, 0.28);
+    transform: translateY(-1px);
+  }
+
+  /* Eyebrow label — wide letter spacing for the simulation/tech vibe */
+  .eyebrow {
+    @apply font-display text-xs font-medium uppercase text-accent;
+    letter-spacing: 0.32em;
+  }
+
+  /* Gradient ink for headline emphasis */
+  .text-gradient {
+    background: linear-gradient(
+      100deg,
+      var(--color-ink) 0%,
+      var(--color-accent) 45%,
+      var(--color-accent-3) 100%
+    );
+    -webkit-background-clip: text;
+    background-clip: text;
+    color: transparent;
+  }
+
+  /* Soft accent halo behind hero content */
+  .halo {
+    background:
+      radial-gradient(40% 50% at 20% 30%, rgba(56, 189, 248, 0.18), transparent 70%),
+      radial-gradient(45% 45% at 85% 60%, rgba(168, 85, 247, 0.16), transparent 70%);
+  }
+
+  /* Global B&W overlay; the radial hole around the cursor reveals true color */
+  .cursor-torch {
+    position: fixed;
+    inset: 0;
+    z-index: 60;
+    pointer-events: none;
+    --torch-x: -9999px;
+    --torch-y: -9999px;
+    backdrop-filter: grayscale(1);
+    -webkit-backdrop-filter: grayscale(1);
+    -webkit-mask-image: radial-gradient(
+      circle var(--torch-radius) at var(--torch-x) var(--torch-y),
+      transparent 0%,
+      transparent 45%,
+      black 100%
+    );
+    mask-image: radial-gradient(
+      circle var(--torch-radius) at var(--torch-x) var(--torch-y),
+      transparent 0%,
+      transparent 45%,
+      black 100%
+    );
+  }
+
+  /* Spline loading spinner */
+  .loader {
+    width: 38px;
+    height: 38px;
+    border-radius: 50%;
+    border: 2px solid rgba(255, 255, 255, 0.15);
+    border-top-color: var(--color-accent);
+    animation: spin 0.8s linear infinite;
+  }
+
+  /* Borderless photo — edges dissolve into the page */
+  .feather-mask {
+    -webkit-mask-image: radial-gradient(
+      ellipse 72% 72% at 50% 45%,
+      #000 50%,
+      transparent 82%
+    );
+    mask-image: radial-gradient(
+      ellipse 72% 72% at 50% 45%,
+      #000 50%,
+      transparent 82%
+    );
+  }
+
+  /* Oversized outlined ghost numerals/word-marks behind the bio */
+  .ghost-figure {
+    font-family: var(--font-display);
+    font-weight: 700;
+    line-height: 0.8;
+    color: transparent;
+    -webkit-text-stroke: 1.5px color-mix(in oklab, var(--color-ink) 16%, transparent);
+  }
+
+  /* Highlighted keyword inside flowing body copy */
+  .kw {
+    color: var(--color-ink);
+    font-weight: 600;
+    box-shadow: inset 0 -0.4em 0 color-mix(in oklab, var(--color-accent) 22%, transparent);
+  }
+
+  /* Vertical marquee track (skills) — CSS animation gives free hover-pause */
+  .skill-track {
+    animation: marquee-up linear infinite;
+  }
+  .skill-track:hover {
+    animation-play-state: paused;
+  }
+
+  /* Top/bottom fade for the marquee viewport */
+  .marquee-fade {
+    -webkit-mask-image: linear-gradient(
+      to bottom,
+      transparent,
+      black 14%,
+      black 86%,
+      transparent
+    );
+    mask-image: linear-gradient(
+      to bottom,
+      transparent,
+      black 14%,
+      black 86%,
+      transparent
+    );
+  }
+
+  /* Blurred placeholder tile in the scroll reel (theme-aware) */
+  .reel-cell {
+    flex-shrink: 0;
+    border-radius: 0.75rem;
+    border: 1px solid color-mix(in oklab, var(--color-ink) 10%, transparent);
+    background: linear-gradient(
+      to bottom,
+      color-mix(in oklab, var(--color-ink) 7%, transparent),
+      color-mix(in oklab, var(--color-ink) 3%, transparent)
+    );
+    filter: blur(1px);
+  }
+
+  /* Per-character rise for the reel quote text */
+  .scroll-reel-char {
+    display: inline-block;
+    opacity: 0;
+    transform: translateY(0.6em);
+    animation: scroll-reel-char-rise 0.5s cubic-bezier(0.65, 0, 0.35, 1) forwards;
+  }
+
+  /* Whole-block exit before the next quote rises in */
+  .scroll-reel-exit {
+    animation: scroll-reel-exit 240ms cubic-bezier(0.65, 0, 0.35, 1) forwards;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.001ms !important;
+    transition-duration: 0.001ms !important;
+    scroll-behavior: auto !important;
+  }
+}
+
+@keyframes spotlight {
+  0% {
+    opacity: 0;
+    transform: translate(-72%, -62%) scale(0.5);
+  }
+  100% {
+    opacity: 1;
+    transform: translate(-50%, -40%) scale(1);
+  }
+}
+
+@keyframes spin {
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+@keyframes marquee-up {
+  to {
+    transform: translateY(-50%);
+  }
+}
+
+/* Light-theme glass: frosted white films with dark hairline borders */
+html.light .glass,
+html.light .liquid-glass {
+  background:
+    linear-gradient(180deg, rgba(255, 255, 255, 0.8), rgba(255, 255, 255, 0.55)),
+    rgba(255, 255, 255, 0.4);
+  border-color: rgba(15, 18, 30, 0.1);
+  box-shadow:
+    var(--shadow-glass),
+    inset 0 1px 0 rgba(255, 255, 255, 0.7);
+}
+
+html.light .glass-strong {
+  background:
+    linear-gradient(180deg, rgba(255, 255, 255, 0.92), rgba(255, 255, 255, 0.7)),
+    rgba(255, 255, 255, 0.5);
+  border-color: rgba(15, 18, 30, 0.12);
+}
+
+html.light .liquid-glass-pill {
+  background:
+    linear-gradient(180deg, rgba(255, 255, 255, 0.95), rgba(255, 255, 255, 0.7)),
+    rgba(255, 255, 255, 0.5);
+  border-color: rgba(15, 18, 30, 0.12);
+  box-shadow:
+    0 12px 32px -16px rgba(15, 18, 30, 0.35),
+    inset 0 1px 0 rgba(255, 255, 255, 0.9);
+}
+
+@keyframes scroll-reel-char-rise {
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes scroll-reel-exit {
+  from {
+    opacity: 1;
+    transform: translateY(0);
+  }
+  to {
+    opacity: 0;
+    transform: translateY(-12px);
+  }
+}
