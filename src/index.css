@@ -171,7 +171,6 @@ html.light {
     --torch-x: -9999px;
     --torch-y: -9999px;
     backdrop-filter: grayscale(1);
-    -webkit-backdrop-filter: grayscale(1);
     -webkit-mask-image: radial-gradient(
       circle var(--torch-radius) at var(--torch-x) var(--torch-y),
       transparent 0%,
