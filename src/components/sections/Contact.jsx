@@ -1,6 +1,6 @@
 import { useState } from 'react'
 import { AnimatePresence, motion } from 'framer-motion'
-import { Check, Loader2, Mail, MessageSquare, Send, User } from 'lucide-react'
+import { Check, Loader2, Mail, MapPin, MessageSquare, Send, User } from 'lucide-react'
 
 import { profile } from '@/data/profile'
 import { SectionHeading } from '@/components/ui/SectionHeading'
@@ -131,7 +131,12 @@ export function Contact() {
             description="Open to internships, junior roles and collaboration on backend or simulation projects."
           />
 
-          <Reveal delay={0.1} className="mt-8 flex flex-wrap gap-3">
+          <Reveal delay={0.05} className="mt-6 flex items-center gap-2 text-sm text-muted">
+            <MapPin size={16} className="shrink-0 text-accent" aria-hidden="true" />
+            <span>{profile.location}</span>
+          </Reveal>
+
+          <Reveal delay={0.1} className="mt-6 flex flex-wrap gap-3">
             {profile.socials.map((social) => {
               const Icon = SOCIAL_ICONS[social.label] ?? Mail
               return (

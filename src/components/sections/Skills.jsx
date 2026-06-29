@@ -8,6 +8,7 @@ const DURATIONS = [20, 26, 23]
 // Build per-item cards carrying the brand/concept icon + group accent.
 const columns = skillGroups.map((group) => ({
   id: group.id,
+  title: group.title,
   cards: group.items.map((item) => ({
     name: item.name,
     blurb: item.blurb,
@@ -39,13 +40,20 @@ export function Skills() {
           ))}
         </div>
 
-        {/* Static grid — mobile (nothing hidden, no scroll) */}
-        <div className="mt-12 grid gap-4 sm:grid-cols-2 md:hidden">
-          {columns.flatMap((column) =>
-            column.cards.map((card, index) => (
-              <SkillCard key={`${column.id}-${index}`} {...card} />
-            )),
-          )}
+        {/* Grouped compact list — mobile (nothing hidden, no scroll) */}
+        <div className="mt-10 space-y-9 md:hidden">
+          {columns.map((column) => (
+            <div key={column.id}>
+              <h3 className="mb-3 font-display text-xs uppercase tracking-[0.25em] text-muted">
+                {column.title}
+              </h3>
+              <div className="grid gap-3">
+                {column.cards.map((card, index) => (
+                  <SkillCard key={`${column.id}-${index}`} {...card} compact />
+                ))}
+              </div>
+            </div>
+          ))}
         </div>
       </div>
     </section>

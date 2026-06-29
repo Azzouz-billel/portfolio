@@ -1,12 +1,13 @@
 // EDIT: replace these placeholders with your real details.
 export const profile = {
-  name: 'Azzouz billel',
+  name: 'Azzouz Billel',
   shortName: 'Billel',
   title: 'Full-Stack Django Developer · Modeling & Simulation',
   tagline: 'Simulating Code. Building Solutions.',
   subtitle:
     'A full-stack Django developer and 4th-year Modeling & Simulation student — bridging robust backend engineering with the mathematics of systems and algorithms.',
   email: 'billel.azzouz@nhsm.edu.dz',
+  location: 'Based in Algeria · Open to internships, junior roles & remote work.',
   photo: '/me.png', // EDIT: drop your photo in /public and point here
   resumeUrl: '/resume.pdf', // EDIT: add your resume to /public
   socials: [

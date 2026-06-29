@@ -1,3 +1,4 @@
+import { useEffect, useState } from 'react'
 import { motion } from 'framer-motion'
 
 import { profile } from '@/data/profile'
@@ -9,8 +10,24 @@ import { Spotlight } from '@/components/ui/Spotlight'
 const EASE = [0.22, 1, 0.36, 1]
 const SCENE = 'https://prod.spline.design/kZDDjO5HuC9GJUM2/scene.splinecode'
 
+const DESKTOP_QUERY = '(min-width: 768px)'
+
 export function Hero() {
   const reducedMotion = usePrefersReducedMotion()
+  // The 3D robot crowds the text on phones, so it's desktop-only; smaller
+  // screens fall back to the same halo gradient used for reduced motion.
+  const [isDesktop, setIsDesktop] = useState(
+    () => typeof window !== 'undefined' && window.matchMedia(DESKTOP_QUERY).matches,
+  )
+
+  useEffect(() => {
+    const media = window.matchMedia(DESKTOP_QUERY)
+    const onChange = () => setIsDesktop(media.matches)
+    media.addEventListener('change', onChange)
+    return () => media.removeEventListener('change', onChange)
+  }, [])
+
+  const showRobot = !reducedMotion && isDesktop
 
   return (
     <section
@@ -20,10 +37,10 @@ export function Hero() {
       {/* Interactive 3D background (robot reacts to the mouse) */}
       <div className="absolute inset-0 -z-10" aria-hidden="true">
         <Spotlight className="-top-40 left-0 md:-top-20 md:left-60" fill="white" />
-        {reducedMotion ? (
-          <div className="halo absolute inset-0" />
-        ) : (
+        {showRobot ? (
           <SplineScene scene={SCENE} className="absolute inset-0 h-full w-full" />
+        ) : (
+          <div className="halo absolute inset-0" />
         )}
       </div>
 

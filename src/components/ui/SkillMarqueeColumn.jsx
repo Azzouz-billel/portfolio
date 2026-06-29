@@ -1,17 +1,19 @@
 import { Fragment } from 'react'
 
-export function SkillCard({ name, blurb, icon: Icon, accent }) {
+export function SkillCard({ name, blurb, icon: Icon, accent, compact = false }) {
   return (
-    <div className="liquid-glass flex w-full items-start gap-4 p-6">
+    <div className={`liquid-glass flex w-full items-start ${compact ? 'gap-3 p-4' : 'gap-4 p-6'}`}>
       <span
-        className="grid h-12 w-12 shrink-0 place-items-center rounded-xl"
+        className={`grid shrink-0 place-items-center rounded-xl ${compact ? 'h-10 w-10' : 'h-12 w-12'}`}
         style={{ backgroundColor: `${accent}22`, color: accent }}
       >
-        <Icon size={26} aria-hidden="true" />
+        <Icon size={compact ? 20 : 26} aria-hidden="true" />
       </span>
       <div className="min-w-0">
-        <p className="text-base font-semibold leading-5">{name}</p>
-        <p className="mt-1.5 text-sm leading-snug text-muted">{blurb}</p>
+        <p className={`font-semibold leading-5 ${compact ? 'text-sm' : 'text-base'}`}>{name}</p>
+        <p className={`mt-1.5 leading-snug text-muted ${compact ? 'text-[13px]' : 'text-sm'}`}>
+          {blurb}
+        </p>
       </div>
     </div>
   )
