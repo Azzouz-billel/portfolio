@@ -40,8 +40,25 @@ export function Navbar() {
 
   return (
     <header className="fixed inset-x-0 top-0 z-40 px-4 pt-4 sm:px-6">
-      <nav className="glass mx-auto flex max-w-5xl items-center justify-between px-4 py-3 sm:px-6">
-        <a href="#top" className="font-display text-sm font-bold tracking-wide">
+      <nav className="relative mx-auto flex max-w-5xl items-center justify-between rounded-2xl border border-white/10 bg-base/95 px-4 py-3 shadow-[0_12px_40px_-16px_rgba(0,0,0,0.9)] backdrop-blur-md sm:px-6">
+        {/* Mobile: hamburger left */}
+        <button
+          type="button"
+          className="md:hidden"
+          aria-label="Toggle navigation menu"
+          aria-expanded={menuOpen}
+          onClick={() => setMenuOpen((open) => !open)}
+        >
+          <span className="block h-0.5 w-6 rounded bg-ink transition-transform" />
+          <span className="mt-1.5 block h-0.5 w-6 rounded bg-ink" />
+          <span className="mt-1.5 block h-0.5 w-6 rounded bg-ink" />
+        </button>
+
+        {/* Centered on mobile, left-aligned on desktop */}
+        <a
+          href="#top"
+          className="absolute left-1/2 -translate-x-1/2 font-condensed text-lg uppercase tracking-[0.25em] md:static md:translate-x-0"
+        >
           {profile.shortName}
           <span className="text-accent">.</span>
         </a>
@@ -82,23 +99,22 @@ export function Navbar() {
           </a>
         </div>
 
+        {/* Mobile: theme toggle right */}
         <button
           type="button"
-          className="md:hidden"
-          aria-label="Toggle navigation menu"
-          aria-expanded={menuOpen}
-          onClick={() => setMenuOpen((open) => !open)}
+          onClick={toggleTheme}
+          aria-label="Toggle light and dark theme"
+          aria-pressed={theme === 'light'}
+          className="grid h-9 w-9 place-items-center rounded-full text-ink transition-colors hover:bg-white/5 md:hidden"
         >
-          <span className="block h-0.5 w-6 rounded bg-ink transition-transform" />
-          <span className="mt-1.5 block h-0.5 w-6 rounded bg-ink" />
-          <span className="mt-1.5 block h-0.5 w-6 rounded bg-ink" />
+          {theme === 'light' ? <Moon size={16} /> : <Sun size={16} />}
         </button>
       </nav>
 
       <AnimatePresence>
         {menuOpen && (
           <motion.div
-            className="glass mx-auto mt-2 max-w-5xl overflow-hidden md:hidden"
+            className="mx-auto mt-2 max-w-5xl overflow-hidden rounded-2xl border border-white/10 bg-base/95 backdrop-blur-md md:hidden"
             initial={{ opacity: 0, height: 0 }}
             animate={{ opacity: 1, height: 'auto' }}
             exit={{ opacity: 0, height: 0 }}
@@ -116,16 +132,6 @@ export function Navbar() {
                   </a>
                 </li>
               ))}
-              <li>
-                <button
-                  type="button"
-                  onClick={toggleTheme}
-                  className="flex w-full items-center gap-2 rounded-xl px-4 py-3 text-sm text-muted hover:bg-white/5 hover:text-ink"
-                >
-                  {theme === 'light' ? <Moon size={16} /> : <Sun size={16} />}
-                  {theme === 'light' ? 'Dark mode' : 'Light mode'}
-                </button>
-              </li>
             </ul>
           </motion.div>
         )}

@@ -17,6 +17,7 @@
 
   --font-display: "Space Grotesk", ui-sans-serif, system-ui, sans-serif;
   --font-sans: "Inter", ui-sans-serif, system-ui, sans-serif;
+  --font-condensed: "Bebas Neue", "Arial Narrow", ui-sans-serif, sans-serif;
 
   /* surfaces & motion tokens */
   --radius-glass: 1.25rem;
@@ -183,6 +184,13 @@ html.light {
       transparent 45%,
       black 100%
     );
+  }
+
+  /* Smaller reveal hole on touch screens */
+  @media (max-width: 767px) {
+    .cursor-torch {
+      --torch-radius: 140px;
+    }
   }
 
   /* Spline loading spinner */

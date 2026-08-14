@@ -20,7 +20,16 @@ export function useCursorTorch(targetRef, enabled) {
       sourceX.set(event.clientX)
       sourceY.set(event.clientY)
     }
+    // Touch: the reveal lasts only while the finger is down ("color until I touch").
+    const handleRelease = (event) => {
+      if (event.pointerType !== 'touch') return
+      sourceX.set(-9999)
+      sourceY.set(-9999)
+    }
     window.addEventListener('pointermove', handleMove)
+    window.addEventListener('pointerdown', handleMove)
+    window.addEventListener('pointerup', handleRelease)
+    window.addEventListener('pointercancel', handleRelease)
 
     const node = targetRef.current
     const unsubscribeX = x.on('change', (value) =>
@@ -32,6 +41,9 @@ export function useCursorTorch(targetRef, enabled) {
 
     return () => {
       window.removeEventListener('pointermove', handleMove)
+      window.removeEventListener('pointerdown', handleMove)
+      window.removeEventListener('pointerup', handleRelease)
+      window.removeEventListener('pointercancel', handleRelease)
       unsubscribeX()
       unsubscribeY()
     }
