@@ -8,8 +8,8 @@ export const projects = [
     image: '/projects/django.jpeg',
     description:'A DRF-backed platform for students to upload, search and moderate study materials, replacing an ad-hoc Google Drive workflow.',
     tags: ['Django', 'DRF', 'PostgreSQL'],
-    repoUrl: 'https://nhsmhub.online/',
-    liveUrl: 'https://nhsmhub.online/',
+    repoUrl: 'https://nhsmhub.com/',
+    liveUrl: 'https://nhsmhub.com/',
   },
   {
     id: 'naruto simulation',
