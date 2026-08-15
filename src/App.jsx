@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react'
+import { useEffect } from 'react'
 import { ReactLenis, useLenis } from 'lenis/react'
 
 import { useScrollStore } from '@/store/scroll'
@@ -55,22 +55,8 @@ function SmoothAnchors() {
   return null
 }
 
-const DESKTOP_QUERY = '(min-width: 768px)'
-
 export default function App() {
   const reducedMotion = usePrefersReducedMotion()
-  // The fluid trail is desktop-only: on phones it fights the touch scroll and
-  // costs GPU for little payoff.
-  const [isDesktop, setIsDesktop] = useState(
-    () => typeof window !== 'undefined' && window.matchMedia(DESKTOP_QUERY).matches,
-  )
-
-  useEffect(() => {
-    const media = window.matchMedia(DESKTOP_QUERY)
-    const onChange = () => setIsDesktop(media.matches)
-    media.addEventListener('change', onChange)
-    return () => media.removeEventListener('change', onChange)
-  }, [])
 
   return (
     <ReactLenis
@@ -79,9 +65,9 @@ export default function App() {
     >
       <CursorTorch reducedMotion={reducedMotion} />
       {/* Fluid color trail — lives under the grayscale torch, so the dye is
-          only revealed in color around the pointer and fades to grey behind.
-          Tuned thin and quick-fading so it reads as a wisp, not a smoke cloud. */}
-      {!reducedMotion && isDesktop && (
+          only revealed in color around the pointer/finger and fades to grey
+          behind. On touch, a tap splashes color wherever you press. */}
+      {!reducedMotion && (
         <div className="pointer-events-none fixed inset-0 z-30" aria-hidden="true">
           <AuraCursor
             paletteColors={['#38bdf8', '#22d3ee', '#a855f7']}

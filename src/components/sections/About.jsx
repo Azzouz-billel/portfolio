@@ -19,9 +19,9 @@ const HEADING = {
 function MobileAbout() {
   return (
     <div className="px-6 py-24 md:hidden">
-      <Reveal className="relative -mx-6 h-[38vh] overflow-hidden">
+      <Reveal className="relative -mx-6 h-[55vh] overflow-hidden">
         <img
-          src="/2.png"
+          src="/me.png"
           alt={`Portrait of ${profile.name}`}
           loading="lazy"
           className="h-full w-full object-cover object-top grayscale"
