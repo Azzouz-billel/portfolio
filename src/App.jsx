@@ -5,6 +5,7 @@ import { useScrollStore } from '@/store/scroll'
 import { usePrefersReducedMotion } from '@/hooks/usePrefersReducedMotion'
 
 import { CursorTorch } from '@/components/effects/CursorTorch'
+import { AuraCursor } from '@/components/effects/AuraCursor'
 import { Navbar } from '@/components/layout/Navbar'
 import { ScrollProgressBar } from '@/components/layout/ScrollProgressBar'
 import { Footer } from '@/components/layout/Footer'
@@ -63,6 +64,20 @@ export default function App() {
       options={{ smoothWheel: !reducedMotion, lerp: 0.1, wheelMultiplier: 0.9 }}
     >
       <CursorTorch reducedMotion={reducedMotion} />
+      {/* Fluid color trail — lives under the grayscale torch, so the dye is
+          only revealed in color around the pointer and fades to grey behind.
+          Tuned thin and quick-fading so it reads as a wisp, not a smoke cloud. */}
+      {!reducedMotion && (
+        <div className="pointer-events-none fixed inset-0 z-30" aria-hidden="true">
+          <AuraCursor
+            paletteColors={['#38bdf8', '#22d3ee', '#a855f7']}
+            splatRadius={2.5}
+            splatForce={3.5}
+            densityDissipation={11}
+            curl={5}
+          />
+        </div>
+      )}
       <ScrollSync />
       <SmoothAnchors />
 
